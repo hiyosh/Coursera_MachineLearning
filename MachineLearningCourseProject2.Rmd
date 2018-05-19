@@ -2,13 +2,15 @@
 title: "Machine Learning Course Project - Weight Lifting Exercise Prediction"
 author: "kshiraishi"
 date: "May 19, 2018"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(cache=TRUE)
+#knitr::opts_chunk$set(cache=TRUE)
 ```
 
 ## Executive Summary
@@ -60,7 +62,6 @@ Given the 20 features, we should attempt to remove unneccessary columns to save 
 We only keep the "Confirmed" features, and add back in the "classe" variable.  For good measure we plot the relative importance of each variable.
 
 ```{r boruta, warning=FALSE}
-knitr::opts_chunk$set(cache=TRUE)
 set.seed(1)
 boruta_output <- Boruta(classe ~ ., data=training)
 relVal <- getSelectedAttributes(boruta_output, withTentative=F)
@@ -72,7 +73,6 @@ plot(boruta_output, cex.axis=.7, las=2, xlab="", main="Variable Importance")
 ### Applying a Random Forest Model
 Now that we have our training and testing data set, we can fit a random forest model.  To take advantage of multi-core processing, we following the detailed instructions here [@Greski].
 ```{r modelfit, warning=FALSE}
-knitr::opts_chunk$set(cache=TRUE)
 set.seed(1)
 
 cluster <- makeCluster(detectCores() -1 ) # convention to leave 1 core for OS
